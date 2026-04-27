@@ -1,0 +1,22 @@
+{% extends 'fitness/base.html' %}
+
+{% block title %}Список тренувань{% endblock %}
+
+{% block content %}
+<h2>Публічні плани тренувань</h2>
+<div class="row">
+    {% for workout in workouts %}
+    <div class="col-md-4">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ workout.title }}</h5>
+                <p class="text-muted">Автор: {{ workout.user.username }}</p>
+                <a href="{% url 'workout_detail' workout.id %}" class="btn btn-primary">Переглянути</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>Тренувань поки немає.</p>
+    {% endfor %}
+</div>
+{% endblock %}
