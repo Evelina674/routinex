@@ -1,0 +1,48 @@
+{% extends "fitness/base.html" %}
+
+{% block title %}Профіль {{ profile.user.username }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h1>{{ profile.user.username }}</h1>
+                    <p class="text-muted mb-1">{{ profile.goal|default:'Без мети' }}</p>
+                    <p class="mb-1"><strong>Вага:</strong> {{ profile.weight }} kg</p>
+                    <p class="mb-1"><strong>Зріст:</strong> {{ profile.height }} cm</p>
+                    <p class="mb-1"><strong>Профіль:</strong> {{ profile.is_public|yesno:'Публічний,Приватний' }}</p>
+                </div>
+                {% if not is_friend and profile.user != request.user %}
+                    <a href="{% url 'add_friend' profile.user.username %}" class="btn btn-success">Додати в друзі</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <h5 class="mb-0">Історія тренувань</h5>
+        </div>
+        <div class="card-body">
+            {% if profile.user.workout_set.all %}
+                <div class="list-group">
+                    {% for workout in profile.user.workout_set.all|slice:":5" %}
+                        <a href="{% url 'workout_detail' workout.id %}" class="list-group-item list-group-item-action">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <strong>{{ workout.title }}</strong>
+                                    <div class="text-muted small">{{ workout.get_category_display }}</div>
+                                </div>
+                                <span class="badge bg-primary">{{ workout.date|date:"d.m.Y" }}</span>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-muted">Цей користувач ще не додав тренування.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>

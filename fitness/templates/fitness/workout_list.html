@@ -1,0 +1,43 @@
+{% extends 'fitness/base.html' %}
+
+{% block title %}Мої тренування{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>Мої тренування</h2>
+            <p class="text-muted">Переглянь історію своїх занять за датами і категоріями.</p>
+        </div>
+        <a href="{% url 'add_workout' %}" class="btn btn-primary">➕ Нове тренування</a>
+    </div>
+    <div class="row g-3">
+        {% for workout in workouts %}
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <div>
+                            <h5 class="card-title mb-1">{{ workout.title }}</h5>
+                            <p class="text-muted small mb-0">Категорія: {{ workout.get_category_display }}</p>
+                        </div>
+                        <span class="badge bg-primary">{{ workout.date|date:"d.m.Y" }}</span>
+                    </div>
+                    <p class="card-text text-truncate">{{ workout.note|default:"Без опису" }}</p>
+                    <div class="mt-3 d-flex gap-2">
+                        <a href="{% url 'workout_detail' workout.id %}" class="btn btn-sm btn-outline-primary">Деталі</a>
+                        <a href="{% url 'edit_workout' workout.id %}" class="btn btn-sm btn-outline-secondary">Редагувати</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-secondary">
+                <p class="mb-0">Тренувань ще немає. <a href="{% url 'add_workout' %}">Додайте перше тренування</a>.</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

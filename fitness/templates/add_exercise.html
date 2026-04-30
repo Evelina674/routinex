@@ -1,0 +1,9 @@
+<h2>Add Exercise to {{ workout.title }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="name" placeholder="Exercise name">
+    <input type="number" name="reps" placeholder="Reps">
+    <input type="number" name="sets" placeholder="Sets">
+    <button type="submit">Save</button>
+</form>

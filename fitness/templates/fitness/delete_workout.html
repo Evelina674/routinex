@@ -1,0 +1,23 @@
+{% extends "fitness/base.html" %}
+
+{% block title %}Видалити тренування{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="mb-0">Видалити тренування</h2>
+            </div>
+            <div class="card-body">
+                <p>Ви впевнені, що хочете видалити тренування "<strong>{{ workout.title }}</strong>"? Це також видалить усі вправи в ньому.</p>
+                <form method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Видалити</button>
+                    <a href="{% url 'workout_detail' workout.id %}" class="btn btn-secondary">Скасувати</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "fitness/base.html" %}
+
+{% block title %}Друзі{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1>Мої друзі</h1>
+            <p class="text-muted mb-0">Переглядайте друзів і їх публічні профілі.</p>
+        </div>
+        <a href="{% url 'feed' %}" class="btn btn-outline-secondary">Назад до стрічки</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            {% if friends %}
+                <div class="list-group">
+                    {% for friend in friends %}
+                        <a href="{% url 'view_profile' friend.user.username %}" class="list-group-item list-group-item-action">
+                            {{ friend.user.username }}
+                        </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-muted">У вас ще немає друзів. Знайдіть людей через їх профілі.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>

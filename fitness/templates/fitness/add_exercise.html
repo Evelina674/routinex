@@ -1,0 +1,35 @@
+{% extends "fitness/base.html" %}
+
+{% block title %}Додати вправу{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h2 class="mb-0">Додати вправу до {{ workout.title }}</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    <div class="mb-3">
+                        {{ form.name.label_tag }}
+                        {{ form.name }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.reps.label_tag }}
+                        {{ form.reps }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.sets.label_tag }}
+                        {{ form.sets }}
+                    </div>
+                    <button type="submit" class="btn btn-success">Додати вправу</button>
+                    <a href="{% url 'workout_detail' workout.id %}" class="btn btn-secondary">Назад</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

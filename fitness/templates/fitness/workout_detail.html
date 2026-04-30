@@ -1,0 +1,111 @@
+{% extends "fitness/base.html" %}
+
+{% block title %}{{ workout.title }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1>{{ workout.title }}</h1>
+            <p class="text-muted mb-0">{{ workout.get_category_display }} • {{ workout.date|date:"d.m.Y" }}</p>
+        </div>
+        <div>
+            <a href="{% url 'edit_workout' workout.id %}" class="btn btn-outline-primary">✏️ Редагувати</a>
+            <a href="{% url 'delete_workout' workout.id %}" class="btn btn-outline-danger">🗑️ Видалити</a>
+        </div>
+    </div>
+
+    {% if workout.note %}
+        <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Опис</h5>
+                <p>{{ workout.note }}</p>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Вправи</h5>
+                    <div>
+                        <form method="POST" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" name="like" class="btn btn-outline-primary btn-sm">
+                                {% if liked %}💙 Вподобано{% else %}🤍 Лайк{% endif %}
+                            </button>
+                            <span class="badge bg-secondary">{{ likes_count }}</span>
+                        </form>
+                    </div>
+                </div>
+                <div class="card-body">
+                    {% if exercises %}
+                        <ul class="list-group list-group-flush">
+                            {% for exercise in exercises %}
+                                <li class="list-group-item">
+                                    <strong>{{ exercise.name }}</strong>
+                                    <div class="text-muted small">{{ exercise.sets }} підходів × {{ exercise.reps }} повторів</div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted">Немає вправ у цьому тренуванні.</p>
+                    {% endif %}
+                    <a href="{% url 'add_exercise' workout.id %}" class="btn btn-success mt-3">➕ Додати вправу</a>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="mb-0">Коментарі</h5>
+                </div>
+                <div class="card-body">
+                    {% if comments %}
+                        <ul class="list-group list-group-flush mb-3">
+                            {% for comment in comments %}
+                                <li class="list-group-item">
+                                    <strong>{{ comment.user.username }}</strong> <span class="text-muted small">{{ comment.created_at|date:"d.m.Y H:i" }}</span>
+                                    <p class="mb-0">{{ comment.text }}</p>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted">Поки немає коментарів.</p>
+                    {% endif %}
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form.non_field_errors }}
+                        <div class="mb-3">
+                            {{ form.text.label_tag }}
+                            {{ form.text }}
+                        </div>
+                        <button type="submit" class="btn btn-primary">Додати коментар</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Опис тренування</h5>
+                    <p class="text-muted">{{ workout.get_category_display }} • {{ workout.date|date:"d.m.Y" }}</p>
+                    {% if workout.note %}
+                        <p>{{ workout.note }}</p>
+                    {% else %}
+                        <p class="text-muted">Опис відсутній.</p>
+                    {% endif %}
+                    {% if is_owner %}
+                        <a href="{% url 'edit_workout' workout.id %}" class="btn btn-outline-primary btn-sm">Редагувати</a>
+                        <a href="{% url 'delete_workout' workout.id %}" class="btn btn-outline-danger btn-sm">Видалити</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="{% url 'workout_list' %}" class="btn btn-secondary">← Назад до тренувань</a>
+</div>
+{% endblock %}

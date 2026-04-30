@@ -1,0 +1,14 @@
+{% extends "fitness/base.html" %}
+
+{% block title %}Профіль приватний{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card shadow-sm text-center">
+        <div class="card-body">
+            <h1>Профіль приватний</h1>
+            <p class="text-muted">Цей користувач зробив свій профіль приватним. Запросіть його у друзі, щоб побачити інформацію.</p>
+            <a href="{% url 'feed' %}" class="btn btn-secondary">Повернутись до стрічки</a>
+        </div>
+    </div>
+</div>
