@@ -1,10 +1,11 @@
 from django.urls import path
-from .views import dashboard, add_workout, add_meal, add_habit, add_progress
+from . import views
 
 urlpatterns = [
-    path("", dashboard),
-    path("workout/add/", add_workout),
-    path("meal/add/", add_meal),
-    path("habit/add/", add_habit),
-    path("progress/add/", add_progress),
+    path("", views.dashboard, name="dashboard"),
+    path("edit-profile/", views.edit_profile, name="edit_profile"),
+    path("add-workout/", views.add_workout),
+    path("add-meal/", views.add_meal),
+    path("add-habit/", views.add_habit),
+    path("add-exercise/<int:workout_id>/", views.add_exercise),
 ]

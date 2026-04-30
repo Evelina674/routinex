@@ -1,0 +1,11 @@
+<h2>Редагувати профіль</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <input name="weight" placeholder="Вага" value="{{ profile.weight }}">
+    <input name="height" placeholder="Зріст" value="{{ profile.height }}">
+    <input name="goal" placeholder="Мета" value="{{ profile.goal }}">
+
+    <button type="submit">Зберегти</button>
+</form>

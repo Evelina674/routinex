@@ -1,0 +1,11 @@
+<h2>Додати вправу</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <input name="name" placeholder="Назва">
+    <input name="reps" placeholder="Повторення">
+    <input name="sets" placeholder="Підходи">
+
+    <button>Додати</button>
+</form>

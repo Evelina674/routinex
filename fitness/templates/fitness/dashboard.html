@@ -1,85 +1,91 @@
-<h1>RutineX</h1>
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>RoutineX Dashboard</title>
+</head>
+<body>
 
-<h2>Профіль</h2>
-{% if profile %}
-<p>Вага: {{ profile.weight }}</p>
-<p>Зріст: {{ profile.height }}</p>
-<p>Ціль: {{ profile.goal }}</p>
+<h1>🔥 RoutineX</h1>
+
+<hr>
+
+<!-- 👤 ПРОФІЛЬ -->
+<h2>👤 Профіль</h2>
+
+<p><b>Вага:</b> {{ profile.weight }} kg</p>
+<p><b>Зріст:</b> {{ profile.height }} cm</p>
+<p><b>Мета:</b> {{ profile.goal }}</p>
+
+<a href="/edit-profile/">✏️ Редагувати профіль</a>
+
+<hr>
+
+<!-- 📈 ПРОГРЕС -->
+<h2>📈 Прогрес ваги</h2>
+
+<a href="/add-progress/">➕ Додати прогрес</a>
+
+{% if progress %}
+    {% for p in progress %}
+        <p>📅 {{ p.date }} — <b>{{ p.weight }} kg</b></p>
+    {% endfor %}
 {% else %}
-<p>No profile</p>
+    <p>Немає даних</p>
 {% endif %}
 
 <hr>
 
-<h2>Додати тренування</h2>
-<form method="post" action="/add-workout/">
-    {% csrf_token %}
-    <input type="text" name="title" placeholder="Назва тренування">
-    <button type="submit">Додати</button>
-</form>
+<!-- 🏋️ ТРЕНУВАННЯ -->
+<h2>🏋️ Тренування</h2>
 
-<h2>Тренування</h2>
-{% for w in workouts %}
-<p>{{ w.title }}</p>
-{% empty %}
-<p>No workouts</p>
-{% endfor %}
+<a href="/add-workout/">➕ Додати тренування</a>
 
-<hr>
-
-<h2>Додати прийом їжі</h2>
-<form method="post" action="/add-meal/">
-    {% csrf_token %}
-    <input type="text" name="name" placeholder="Назва прийому їжі">
-    <input type="number" name="calories" placeholder="Калорії">
-    <button type="submit">Додати</button>
-</form>
-
-<h2>Прийоми їжі</h2>
-{% for m in meals %}
-<p>{{ m.name }} - {{ m.calories }}</p>
-{% empty %}
-<p>No meals</p>
-{% endfor %}
+{% if workouts %}
+    {% for w in workouts %}
+        <p>
+            🔹 <a href="/workout/{{ w.id }}/">{{ w.title }}</a>
+        </p>
+    {% endfor %}
+{% else %}
+    <p>Немає тренувань</p>
+{% endif %}
 
 <hr>
 
-<h2>Додати звичку</h2>
-<form method="post" action="/add-habit/">
-    {% csrf_token %}
-    <input type="number" step="0.1" name="water_liters" placeholder="Water liters">
-    <input type="number" step="0.1" name="sleep_hours" placeholder="Sleep hours">
-    <button type="submit">Додати</button>
-</form>
+<!-- 🍽 ЇЖА -->
+<h2>🍽 Харчування</h2>
 
-<h2>Звички</h2>
-{% for h in habits %}
-<p>{{ h.date }} | 💧 {{ h.water_liters }}L | 😴 {{ h.sleep_hours }}h</p>
-{% empty %}
-<p>No habits</p>
-{% endfor %}
+<a href="/add-meal/">➕ Додати прийом їжі</a>
+
+{% if meals %}
+    {% for m in meals %}
+        <p>🥗 {{ m.name }} — <b>{{ m.calories }} kcal</b></p>
+    {% endfor %}
+{% else %}
+    <p>Немає записів</p>
+{% endif %}
 
 <hr>
 
-<h2>Додати прогрес</h2>
-<form method="post" action="/add-progress/">
-    {% csrf_token %}
-    <input type="number" step="0.1" name="weight" placeholder="Weight">
-    <button type="submit">Додати</button>
-</form>
+<!-- 🔁 ЗВИЧКИ -->
+<h2>🔁 Звички</h2>
 
-<h2>Прогрес</h2>
-{% for p in progress %}
-<p>{{ p.date }} - ⚖ {{ p.weight }} kg</p>
-{% empty %}
-<p>No progress</p>
-{% endfor %}
+<a href="/add-habit/">➕ Додати звичку</a>
+
+{% if habits %}
+    {% for h in habits %}
+        <p>✔ {{ h.name }}</p>
+    {% endfor %}
+{% else %}
+    <p>Немає звичок</p>
+{% endif %}
 
 <hr>
 
-<h2>Публічні тренування</h2>
-{% for w in public_workouts %}
-<p>{{ w.title }} | {{ w.user.user.username }}</p>
-{% empty %}
-<p>No public workouts</p>
-{% endfor %}
+<p style="color:gray;">
+    RoutineX — твій трекер життя 💪
+</p>
+
+</body>
+</html>

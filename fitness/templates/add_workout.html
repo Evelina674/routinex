@@ -1,0 +1,7 @@
+<h2>Add Workout</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="title" placeholder="Workout name">
+    <button type="submit">Save</button>
+</form>

@@ -1,11 +1,11 @@
 from django import forms
-from .models import Workout, Meal, HabitLog, Progress
+from .models import Workout, Meal, Habit, Progress
 
 
 class WorkoutForm(forms.ModelForm):
     class Meta:
         model = Workout
-        fields = ["title", "description", "is_public"]
+        fields = ["title"]
 
 
 class MealForm(forms.ModelForm):
@@ -16,11 +16,11 @@ class MealForm(forms.ModelForm):
 
 class HabitForm(forms.ModelForm):
     class Meta:
-        model = HabitLog
-        fields = ["date", "water_liters", "sleep_hours", "steps"]
+        model = Habit
+        fields = ["title", "is_done"]
 
 
 class ProgressForm(forms.ModelForm):
     class Meta:
         model = Progress
-        fields = ["date", "weight"]
+        fields = ["weight"]
